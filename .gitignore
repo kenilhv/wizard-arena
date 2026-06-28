@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+.env
+.env.local
+**/.env
+**/.env.local
+!**/.env.example
+backend/arena.db
+backend/submissions/*.py
+
+# Node / Next
+node_modules/
+.next/
+out/
+.DS_Store
+npm-debug.log*
+
+# build artifacts / venv (rebuilt on deploy)
+frontend/dist/
+.venv/
+venv/
+
+# keep dirs
+!backend/submissions/.gitkeep
+
+# InsForge & AI agent skills
+.insforge
+.agent
+.agents
+.augment
+.claude
+.cline
+.github/copilot*
+.kilocode
+.qoder
+.qwen
+.roo
+.trae
+.windsurf
