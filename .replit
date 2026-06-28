@@ -6,6 +6,8 @@ channel = "stable-24_05"
 
 [env]
 PYTHONUNBUFFERED = "1"
+PORT = "8000"
+AUTO_SEED = "0"
 
 [[ports]]
 localPort = 8000
@@ -13,4 +15,5 @@ externalPort = 80
 
 [deployment]
 run = ["bash", "start.sh"]
+build = ["bash", "-c", "cd frontend && npm install && npm run build"]
 deploymentTarget = "cloudrun"

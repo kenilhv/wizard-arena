@@ -58,16 +58,23 @@ class ReportBody(BaseModel):
     reason: str
 
 
+def _auto_seed() -> None:
+    """Seed baseline tournaments without blocking HTTP startup (Replit health checks)."""
+    for p in list_problems():
+        if store.latest_tournament(p.slug) is None:
+            try:
+                _run(p.slug)
+            except Exception:
+                traceback.print_exc()
+
+
 @app.on_event("startup")
 def _startup() -> None:
     store.init_db()
-    if os.getenv("AUTO_SEED", "1") == "1":
-        for p in list_problems():
-            if store.latest_tournament(p.slug) is None:
-                try:
-                    _run(p.slug)
-                except Exception:
-                    traceback.print_exc()
+    if os.getenv("AUTO_SEED", "1") != "1":
+        return
+    import threading
+    threading.Thread(target=_auto_seed, daemon=True, name="arena-auto-seed").start()
 
 
 def _entries(slug: str, contest_id: str | None = None) -> list[Entry]:
